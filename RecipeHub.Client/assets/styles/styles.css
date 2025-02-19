@@ -1,0 +1,143 @@
+:root {
+    --main-color: #dcdde1;
+    --cell-color: #94dbff;
+}
+
+body {
+    background-color: var(--main-color);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.search-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 15px;
+    background-color: var(--cell-color);
+    padding: 5px 10px;
+}
+
+#input-search {
+    font-size: 2rem;
+    display: inline;
+    width: 100%;
+    border: none;
+    background-color: var(--cell-color);
+    color: white;
+}
+
+.recipes {
+    flex: 0.98;
+    overflow-y: auto;
+    border-radius: 15px;
+    background-color: transparent;
+    padding: 0;
+    margin-top: 0.4rem;
+}
+
+#recipes-list {
+    background-color: transparent;
+    list-style: none;
+    padding: 0 2px;
+}
+
+#recipes-list:first-child {
+    margin-top: 0;
+}
+
+.recipe-list-item {
+    background-color: var(--cell-color);
+    border-radius: 15px;
+    padding: 5px;
+    margin-bottom: 2px;
+}
+
+.recipe-info-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-image {
+    text-align: center;
+    mask-repeat: repeat-x;
+    max-height: 10rem;
+    border-radius: 15px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.recipe-image::before,
+.recipe-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.recipe-image::before {
+    left: 0;
+    background-image: inherit;
+    filter: blur(15px);
+    transform: translateX(-100%);
+  }
+  
+  .recipe-image::after {
+    right: 0;
+    background-image: inherit;
+    filter: blur(15px);
+    transform: translateX(100%);
+  }
+
+.recipe-info h3 {
+    margin: 0;
+}
+
+.recipe-info p {
+    margin: 0;
+    color: gray;
+}
+
+.ingredient-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.7em;
+    padding: 0;
+}
+
+.ingredient-list-item {
+    background-color: lightgray;
+    color: gray;
+    padding: 2px 5px;
+    border-radius: 10px;
+    margin-right: 1px;
+    margin-bottom: 2px;
+}
+
+.add-recipe-block {
+    background-color: transparent;
+    margin-top: 0.5rem;
+    border-radius: 15px;
+}
+
+#add-recipe-button {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    padding: 5px;
+    border-radius: 15px;
+    border-color: transparent;
+    background-color: var(--cell-color);
+}
