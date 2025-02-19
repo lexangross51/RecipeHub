@@ -12,8 +12,8 @@ using RecipeHub.Persistence;
 namespace RecipeHub.Persistence.Migrations
 {
     [DbContext(typeof(RecipeHubContext))]
-    [Migration("20250203151045_ChangeFkRules")]
-    partial class ChangeFkRules
+    [Migration("20250219140429_ChangeFkConstraint")]
+    partial class ChangeFkConstraint
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,28 +30,7 @@ namespace RecipeHub.Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("Caption")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProductId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RecipeId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RecipeStepId")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
-
-                    b.HasIndex("RecipeId")
-                        .IsUnique();
-
-                    b.HasIndex("RecipeStepId")
-                        .IsUnique();
 
                     b.ToTable("Images");
                 });
@@ -65,9 +44,14 @@ namespace RecipeHub.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("RecipeId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("Ingredients");
                 });
@@ -75,6 +59,9 @@ namespace RecipeHub.Persistence.Migrations
             modelBuilder.Entity("RecipeHub.Domain.Models.Product", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageId")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -85,6 +72,9 @@ namespace RecipeHub.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
+
+                    b.HasIndex("ImageId")
+                        .IsUnique();
 
                     b.HasIndex("Name");
 
@@ -102,6 +92,9 @@ namespace RecipeHub.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("ImageId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -110,6 +103,9 @@ namespace RecipeHub.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
+
+                    b.HasIndex("ImageId")
+                        .IsUnique();
 
                     b.HasIndex("Name");
 
@@ -126,28 +122,19 @@ namespace RecipeHub.Persistence.Migrations
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)");
 
+                    b.Property<string>("ImageId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId")
+                        .IsUnique();
 
                     b.ToTable("RecipeStep", (string)null);
                 });
 
             modelBuilder.Entity("RecipeHub.Domain.Models.Image", b =>
                 {
-                    b.HasOne("RecipeHub.Domain.Models.Product", null)
-                        .WithOne("Image")
-                        .HasForeignKey("RecipeHub.Domain.Models.Image", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("RecipeHub.Domain.Models.Recipe", null)
-                        .WithOne("RecipeImage")
-                        .HasForeignKey("RecipeHub.Domain.Models.Image", "RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("RecipeHub.Domain.Models.RecipeStep", null)
-                        .WithOne("Image")
-                        .HasForeignKey("RecipeHub.Domain.Models.Image", "RecipeStepId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.OwnsOne("RecipeHub.Domain.Models.FilePath", "Path", b1 =>
                         {
                             b1.Property<string>("ImageId")
@@ -171,23 +158,21 @@ namespace RecipeHub.Persistence.Migrations
                                 .HasForeignKey("ImageId");
                         });
 
-                    b.Navigation("Path")
-                        .IsRequired();
+                    b.Navigation("Path");
                 });
 
             modelBuilder.Entity("RecipeHub.Domain.Models.Ingredient", b =>
                 {
-                    b.HasOne("RecipeHub.Domain.Models.Recipe", null)
-                        .WithMany("Ingredients")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("RecipeHub.Domain.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("RecipeHub.Domain.Models.Recipe", null)
+                        .WithMany("Ingredients")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("RecipeHub.Domain.Models.Measure", "Measure", b1 =>
                         {
@@ -216,6 +201,26 @@ namespace RecipeHub.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("RecipeHub.Domain.Models.Product", b =>
+                {
+                    b.HasOne("RecipeHub.Domain.Models.Image", "Image")
+                        .WithOne()
+                        .HasForeignKey("RecipeHub.Domain.Models.Product", "ImageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("RecipeHub.Domain.Models.Recipe", b =>
+                {
+                    b.HasOne("RecipeHub.Domain.Models.Image", "RecipeImage")
+                        .WithOne()
+                        .HasForeignKey("RecipeHub.Domain.Models.Recipe", "ImageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("RecipeImage");
+                });
+
             modelBuilder.Entity("RecipeHub.Domain.Models.RecipeStep", b =>
                 {
                     b.HasOne("RecipeHub.Domain.Models.Recipe", null)
@@ -223,10 +228,12 @@ namespace RecipeHub.Persistence.Migrations
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("RecipeHub.Domain.Models.Product", b =>
-                {
+                    b.HasOne("RecipeHub.Domain.Models.Image", "Image")
+                        .WithOne()
+                        .HasForeignKey("RecipeHub.Domain.Models.RecipeStep", "ImageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.Navigation("Image");
                 });
 
@@ -234,14 +241,7 @@ namespace RecipeHub.Persistence.Migrations
                 {
                     b.Navigation("Ingredients");
 
-                    b.Navigation("RecipeImage");
-
                     b.Navigation("Steps");
-                });
-
-            modelBuilder.Entity("RecipeHub.Domain.Models.RecipeStep", b =>
-                {
-                    b.Navigation("Image");
                 });
 #pragma warning restore 612, 618
         }

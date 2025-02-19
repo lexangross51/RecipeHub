@@ -122,10 +122,15 @@ namespace RecipeHub.Persistence.Migrations
                     b.Property<string>("ImageId")
                         .HasColumnType("text");
 
+                    b.Property<string>("RecipeId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ImageId")
                         .IsUnique();
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("RecipeStep", (string)null);
                 });
@@ -220,15 +225,14 @@ namespace RecipeHub.Persistence.Migrations
 
             modelBuilder.Entity("RecipeHub.Domain.Models.RecipeStep", b =>
                 {
-                    b.HasOne("RecipeHub.Domain.Models.Recipe", null)
-                        .WithMany("Steps")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("RecipeHub.Domain.Models.Image", "Image")
                         .WithOne()
                         .HasForeignKey("RecipeHub.Domain.Models.RecipeStep", "ImageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RecipeHub.Domain.Models.Recipe", null)
+                        .WithMany("Steps")
+                        .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Image");
