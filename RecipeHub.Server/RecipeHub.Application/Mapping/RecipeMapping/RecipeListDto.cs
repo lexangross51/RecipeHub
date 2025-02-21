@@ -2,5 +2,5 @@
 
 public class RecipeListDto
 {
-    public IEnumerable<RecipeListItemDto> Recipes { get; set; } = default!;
+    public IList<RecipeListItemDto> Recipes { get; set; } = default!;
 }

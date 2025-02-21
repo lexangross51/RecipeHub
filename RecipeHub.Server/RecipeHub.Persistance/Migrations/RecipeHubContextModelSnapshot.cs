@@ -89,22 +89,22 @@ namespace RecipeHub.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("ImageId")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<string>("RecipeImageId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
 
-                    b.HasIndex("ImageId")
-                        .IsUnique();
-
                     b.HasIndex("Name");
+
+                    b.HasIndex("RecipeImageId")
+                        .IsUnique();
 
                     b.ToTable("Recipes");
                 });
@@ -208,7 +208,7 @@ namespace RecipeHub.Persistence.Migrations
                     b.HasOne("RecipeHub.Domain.Models.Image", "Image")
                         .WithOne()
                         .HasForeignKey("RecipeHub.Domain.Models.Product", "ImageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Image");
                 });
@@ -217,8 +217,8 @@ namespace RecipeHub.Persistence.Migrations
                 {
                     b.HasOne("RecipeHub.Domain.Models.Image", "RecipeImage")
                         .WithOne()
-                        .HasForeignKey("RecipeHub.Domain.Models.Recipe", "ImageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RecipeHub.Domain.Models.Recipe", "RecipeImageId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("RecipeImage");
                 });
@@ -228,7 +228,7 @@ namespace RecipeHub.Persistence.Migrations
                     b.HasOne("RecipeHub.Domain.Models.Image", "Image")
                         .WithOne()
                         .HasForeignKey("RecipeHub.Domain.Models.RecipeStep", "ImageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("RecipeHub.Domain.Models.Recipe", null)
                         .WithMany("Steps")

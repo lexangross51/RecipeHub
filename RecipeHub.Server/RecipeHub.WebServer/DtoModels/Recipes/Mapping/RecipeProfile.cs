@@ -15,7 +15,7 @@ public class RecipeProfile : Profile
             .ForMember(f => f.Data,
             opt => opt.MapFrom(src => ConvertToMemoryStream(src)));
 
-        CreateMap<RecipeStepDto, CreateRecipeStepDto>()
+        CreateMap<CreateRecipeStepDto, CreateRecipeStepDto>()
             .ForMember(d => d.Description,
             opt => opt.MapFrom(src => src.Description))
             .ForMember(d => d.StepImage,

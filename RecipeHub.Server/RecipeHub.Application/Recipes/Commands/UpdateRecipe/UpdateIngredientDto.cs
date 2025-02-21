@@ -6,7 +6,5 @@ public class UpdateIngredientDto
 {
     public required string Id { get; set; }
 
-    public string ProductId { get; set; } = default!;
-
-    public Measure Measure { get; set; } = default!;
+    public Measure NewMeasure { get; set; } = default!;
 }

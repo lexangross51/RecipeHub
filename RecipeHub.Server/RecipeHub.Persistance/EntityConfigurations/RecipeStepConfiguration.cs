@@ -13,7 +13,7 @@ internal class RecipeStepConfiguration : IEntityTypeConfiguration<RecipeStep>
         builder.Property(r => r.Description).HasMaxLength(1024);
         builder.HasOne(r => r.Image)
             .WithOne()
-            .HasForeignKey("RecipeStep", "ImageId")
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey("RecipeStep", nameof(RecipeStep.ImageId))
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

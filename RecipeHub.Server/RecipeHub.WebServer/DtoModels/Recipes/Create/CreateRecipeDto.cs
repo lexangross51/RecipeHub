@@ -14,5 +14,5 @@ public class CreateRecipeDto
 
     public IEnumerable<CreateIngredientDto> Ingredients { get; set; } = default!;
 
-    public IEnumerable<RecipeStepDto> Steps { get; set; } = default!;
+    public IEnumerable<CreateStepDto> Steps { get; set; } = default!;
 }

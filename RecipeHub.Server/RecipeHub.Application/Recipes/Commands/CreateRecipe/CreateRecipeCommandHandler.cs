@@ -19,7 +19,7 @@ internal class CreateRecipeCommandHandler(IRecipeRepository repos, IValidator<Cr
             Description = request.Description,
             Ingredients = request.Ingredients.Select(i => new Ingredient
             {
-                Product = new Product { Id = i.ProductId },
+                ProductId = i.ProductId,
                 Measure = i.Measure
             }).ToArray(),
             Steps = request.Steps.Select(s =>

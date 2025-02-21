@@ -1,6 +1,6 @@
 ﻿namespace RecipeHub.WebServer.DtoModels.Recipes.Create;
 
-public class RecipeStepDto
+public class CreateStepDto
 {
     public string Description { get; set; } = default!;
 

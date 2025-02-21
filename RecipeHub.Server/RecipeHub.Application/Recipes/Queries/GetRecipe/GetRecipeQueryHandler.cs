@@ -12,7 +12,7 @@ internal class GetRecipeQueryHandler(IRecipeRepository repos, IMapper mapper, IV
 {
     protected override async Task<Result<RecipeDto>> HandleAsync(GetRecipeQuery request, CancellationToken cancellationToken)
     {
-        var recipe = await repos.GetAsync(request.Id, cancellationToken)
+        var recipe = await repos.GetWithRelatedDataAsync(request.Id, cancellationToken)
             .ConfigureAwait(false);
 
         if (recipe == null)

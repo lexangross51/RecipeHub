@@ -12,8 +12,8 @@ internal class RecipeProfile : Profile
             x => x.MapFrom(src => src.Id))
             .ForMember(dto => dto.Description,
             x => x.MapFrom(src => src.Description))
-            .ForMember(dto => dto.ImagePath,
-            x => x.MapFrom(src => src.Image != null ? src.Image.Path : default));
+            .ForMember(dto => dto.ImageId,
+            x => x.MapFrom(src => src.Image != null ? src.Image.Id : default));
 
         CreateMap<Ingredient, IngredientDto>()
             .ForMember(dto => dto.Id,
@@ -30,11 +30,17 @@ internal class RecipeProfile : Profile
             x => x.MapFrom(src => src.Description))
             .ForMember(dto => dto.CookingTime,
             x => x.MapFrom(src => src.CookingTime))
-            .ForMember(dto => dto.ImagePath,
-            x => x.MapFrom(src => src.RecipeImage != null ? src.RecipeImage.Path : default))
+            .ForMember(dto => dto.ImageId,
+            x => x.MapFrom(src => src.RecipeImage != null ? src.RecipeImage.Id : default))
             .ForMember(dto => dto.Ingredients,
             x => x.MapFrom(src => src.Ingredients))
             .ForMember(dto => dto.RecipeSteps,
             x => x.MapFrom(src => src.Steps));
+
+        CreateMap<Recipe, RecipeListItemDto>()
+            .ForMember(dto => dto.ImageId,
+            x => x.MapFrom(src => !string.IsNullOrEmpty(src.RecipeImageId) ? src.RecipeImageId : default))
+            .ForMember(dto => dto.Ingredients,
+            x => x.MapFrom(src => src.Ingredients.Select(i => i.Product.Name)));
     }
 }

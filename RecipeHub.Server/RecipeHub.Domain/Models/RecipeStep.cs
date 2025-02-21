@@ -8,5 +8,7 @@ public sealed class RecipeStep : IEntity<string>
 
     public string Description { get; set; } = default!;
 
+    public string? ImageId { get; set; }
+
     public Image? Image { get; set; }
 }

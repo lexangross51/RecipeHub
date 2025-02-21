@@ -1,6 +1,4 @@
-﻿using RecipeHub.Domain.Models;
-
-namespace RecipeHub.Application.Mapping.RecipeMapping;
+﻿namespace RecipeHub.Application.Mapping.RecipeMapping;
 
 public class RecipeStepDto
 {
@@ -8,5 +6,5 @@ public class RecipeStepDto
 
     public string Description { get; set; } = default!;
 
-    public FilePath? ImagePath { get; set; }
+    public string? ImageId { get; set; }
 }

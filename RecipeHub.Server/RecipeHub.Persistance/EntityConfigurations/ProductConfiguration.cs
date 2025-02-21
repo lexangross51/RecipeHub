@@ -16,7 +16,7 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasMaxLength(128);
         builder.HasOne(p => p.Image)
             .WithOne()
-            .HasForeignKey("Product", "ImageId")
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey("Product", nameof(Product.ImageId))
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

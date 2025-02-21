@@ -8,6 +8,8 @@ public sealed class Product : IEntity<string>
 
     public string Name { get; set; }
 
+    public string? ImageId { get; set; }
+
     public Image? Image { get; set; }
 
     public Product() => Name = "unknown";

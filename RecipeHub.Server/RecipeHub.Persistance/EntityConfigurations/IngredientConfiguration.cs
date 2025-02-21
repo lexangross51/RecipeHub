@@ -9,10 +9,9 @@ internal class IngredientConfiguration : IEntityTypeConfiguration<Ingredient>
     public void Configure(EntityTypeBuilder<Ingredient> builder)
     {
         builder.HasKey(e => e.Id);
-        builder.Property<string>("ProductId");
         builder.HasOne(i => i.Product)
             .WithMany()
-            .HasForeignKey("ProductId")
+            .HasForeignKey(i => i.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
         builder.OwnsOne(i => i.Measure, measure =>
         {

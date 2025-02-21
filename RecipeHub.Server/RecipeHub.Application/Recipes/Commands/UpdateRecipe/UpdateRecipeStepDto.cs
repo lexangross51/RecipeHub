@@ -6,7 +6,7 @@ public class UpdateRecipeStepDto
 {
     public required string Id { get; set; }
 
-    public string Description { get; set; } = default!;
+    public string NewDescription { get; set; } = default!;
 
-    public Image? StepImage { get; set; }
+    public Image? NewStepImage { get; set; }
 }

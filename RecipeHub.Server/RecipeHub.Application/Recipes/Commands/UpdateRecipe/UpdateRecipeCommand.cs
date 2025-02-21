@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
+using RecipeHub.Application.Recipes.Commands.CreateRecipe;
 using RecipeHub.Domain.Models;
 
 namespace RecipeHub.Application.Recipes.Commands.UpdateRecipe;
@@ -16,7 +17,11 @@ public class UpdateRecipeCommand : IRequest<Result>
 
     public Image? NewRecipeImage { get; set; }
 
-    public IEnumerable<UpdateIngredientDto> NewIngredients { get; set; } = default!;
+    public IEnumerable<CreateIngredientDto>? NewIngredients { get; set; }
 
-    public IEnumerable<UpdateRecipeStepDto> NewSteps { get; set; } = default!;
+    public IEnumerable<CreateRecipeStepDto>? NewSteps { get; set; }
+
+    public IEnumerable<UpdateIngredientDto> EditedIngredients { get; set; } = default!;
+
+    public IEnumerable<UpdateRecipeStepDto> EditedSteps { get; set; } = default!;
 }
