@@ -1,6 +1,6 @@
 ﻿using RecipeHub.Domain.Models;
 
-namespace RecipeHub.Application.Recipes.Commands.CreateRecipe;
+namespace RecipeHub.Application.Mapping.RecipeMapping.Create;
 
 public class CreateIngredientDto
 {

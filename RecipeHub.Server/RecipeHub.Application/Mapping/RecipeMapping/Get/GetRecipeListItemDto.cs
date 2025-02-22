@@ -1,6 +1,6 @@
-﻿namespace RecipeHub.Application.Mapping.RecipeMapping;
+﻿namespace RecipeHub.Application.Mapping.RecipeMapping.Get;
 
-public class RecipeListItemDto
+public class GetRecipeListItemDto
 {
     public required string Id { get; set; }
 
@@ -8,7 +8,7 @@ public class RecipeListItemDto
 
     public TimeSpan? CookingTime { get; set; }
 
-    public string? ImageId { get; set; }
+    public string? RecipeImageId { get; set; }
 
     public IEnumerable<string>? Ingredients { get; set; }
 }

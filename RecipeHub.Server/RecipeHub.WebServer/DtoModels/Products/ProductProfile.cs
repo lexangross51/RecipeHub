@@ -9,24 +9,11 @@ public class ProductProfile : Profile
 {
     public ProductProfile()
     {
-        CreateMap<CreateProductDto, CreateProductCommand>()
-            .ForMember(cmd => cmd.Name,
-            opt => opt.MapFrom(src => src.Name))
-            .ForMember(cmd => cmd.Image,
-            opt => opt.MapFrom(src => src.Image));
+        // WebServer DTO -> Application DTO
+        CreateMap<CreateProductDto, CreateProductCommand>();
+        CreateMap<UpdateProductDto, UpdateProductCommand>();
 
-        CreateMap<UpdateProductDto, UpdateProductCommand>()
-            .ForMember(cmd => cmd.Id,
-            opt => opt.MapFrom(src => src.Id))
-            .ForMember(cmd => cmd.NewName,
-            opt => opt.MapFrom(src => src.NewName))
-            .ForMember(cmd => cmd.NewImage,
-            opt => opt.MapFrom(src => src.NewImage));
-
-        CreateMap<ProductDto, GetProductDto>()
-            .ForMember(dto => dto.Id,
-            opt => opt.MapFrom(src => src.Id))
-            .ForMember(dto => dto.Name,
-            opt => opt.MapFrom(src => src.Name));
+        // Application DTO -> WebServer DTO
+        CreateMap<ProductDto, GetProductDto>();
     }
 }

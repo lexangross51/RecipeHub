@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RecipeHub.Persistence;
@@ -11,9 +12,11 @@ using RecipeHub.Persistence;
 namespace RecipeHub.Persistence.Migrations
 {
     [DbContext(typeof(RecipeHubContext))]
-    partial class RecipeHubContextModelSnapshot : ModelSnapshot
+    [Migration("20250222091642_AddedNumberProperty")]
+    partial class AddedNumberProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

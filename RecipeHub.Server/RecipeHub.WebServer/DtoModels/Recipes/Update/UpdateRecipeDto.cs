@@ -1,5 +1,5 @@
-﻿using RecipeHub.Application.Recipes.Commands.CreateRecipe;
-using RecipeHub.WebServer.DtoModels.Recipes.Create;
+﻿using RecipeHub.Application.Mapping.RecipeMapping.Create;
+using RecipeHub.Application.Mapping.RecipeMapping.Update;
 
 namespace RecipeHub.WebServer.DtoModels.Recipes.Update;
 
@@ -19,7 +19,7 @@ public class UpdateRecipeDto
 
     public IEnumerable<CreateIngredientDto>? NewIngredients { get; set; }
 
-    public IEnumerable<UpdateStepDto> EditedSteps { get; set; } = default!;
+    public IEnumerable<UpdateRecipeStepDto> EditedSteps { get; set; } = default!;
 
-    public IEnumerable<CreateStepDto>? NewSteps { get; set; }
+    public IEnumerable<Create.CreateRecipeStepDto>? NewSteps { get; set; }
 }

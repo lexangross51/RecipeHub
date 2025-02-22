@@ -45,12 +45,46 @@ internal abstract class Repository<TId, TEntity>(RecipeHubContext context)
 
         if (specification.OrderBy != null)
         {
-            query = query.OrderBy(specification.OrderBy);
+            IOrderedQueryable<TEntity>? orderBy = default;
+
+            foreach (var orderExpression in specification.OrderBy)
+            {
+                if (orderBy == null)
+                {
+                    orderBy = query.OrderBy(orderExpression);
+                }
+                else
+                {
+                    orderBy = orderBy.ThenBy(orderExpression);
+                }
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy;
+            }
         }
 
         if (specification.OrderByDescending != null)
         {
-            query = query.OrderByDescending(specification.OrderByDescending);
+            IOrderedQueryable<TEntity>? orderByDesc = default;
+
+            foreach (var orderExpression in specification.OrderByDescending)
+            {
+                if (orderByDesc == null)
+                {
+                    orderByDesc = query.OrderByDescending(orderExpression);
+                }
+                else
+                {
+                    orderByDesc = orderByDesc.ThenByDescending(orderExpression);
+                }
+            }
+
+            if (orderByDesc != null)
+            {
+                query = orderByDesc;
+            }
         }
 
         if (specification.Take.HasValue)

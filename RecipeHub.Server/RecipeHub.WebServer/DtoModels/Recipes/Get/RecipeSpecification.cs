@@ -13,9 +13,9 @@ public class RecipeSpecification : ISpecification<Recipe>
 
     public Expression<Func<Recipe, bool>> Criteria { get; private set; } = default!;
 
-    public Expression<Func<Recipe, object?>>? OrderBy { get; private set; }
+    public IList<Expression<Func<Recipe, object?>>>? OrderBy { get; private set; }
 
-    public Expression<Func<Recipe, object?>>? OrderByDescending { get; private set; }
+    public IList<Expression<Func<Recipe, object?>>>? OrderByDescending { get; private set; }
 
     public RecipeSpecification(int? take = null, int? skip = null, SortParameter[]? sortBy = null,
         string? name = null, string[]? ingredients = null)
@@ -36,5 +36,47 @@ public class RecipeSpecification : ISpecification<Recipe>
         }
 
         Criteria = criteria;
+
+        if (sortBy is not { Length: > 0 })
+        {
+            return;
+        }
+
+        var recipeType = typeof(Recipe);
+        var properties = recipeType.GetProperties();
+        
+        foreach (var sort in sortBy)
+        {
+            if (string.IsNullOrEmpty(sort.Field))
+            {
+                continue;
+            }
+
+            var property = properties.FirstOrDefault(p => p.Name.Equals(sort.Field, StringComparison.OrdinalIgnoreCase))
+                ?? throw new Exception($"Для типа \"{recipeType.Name}\" не определено свойство \"{sort.Field}\"");
+
+            var parameter = Expression.Parameter(recipeType, "r");
+            var propertyAccess = Expression.MakeMemberAccess(parameter, property);
+            var convert = Expression.Convert(propertyAccess, typeof(object));
+            var lambda = Expression.Lambda<Func<Recipe, object?>>(convert, parameter);
+
+            bool isAscending = true;
+
+            if (sort.Order.Equals("desc", StringComparison.OrdinalIgnoreCase))
+            {
+                isAscending = false;
+            }
+
+            if (isAscending)
+            {
+                OrderBy ??= [];
+                OrderBy.Add(lambda);
+            }
+            else
+            {
+                OrderByDescending ??= [];
+                OrderByDescending.Add(lambda);
+            }
+        }
     }
 }

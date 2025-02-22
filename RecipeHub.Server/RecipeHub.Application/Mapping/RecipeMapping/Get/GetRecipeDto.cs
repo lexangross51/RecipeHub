@@ -1,16 +1,14 @@
-﻿using RecipeHub.Application.Mapping.RecipeMapping.Get;
-
-namespace RecipeHub.WebServer.DtoModels.Recipes.Get;
+﻿namespace RecipeHub.Application.Mapping.RecipeMapping.Get;
 
 public class GetRecipeDto
 {
-    public string Id { get; set; } = default!;
+    public required string Id { get; set; }
 
-    public string Name { get; set; } = default!;
+    public required string Name { get; set; }
 
     public string? Description { get; set; }
 
-    public string? ImageUrl { get; set; }
+    public string? RecipeImageId { get; set; }
 
     public TimeSpan? CookingTime { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
+using RecipeHub.Application.Mapping.RecipeMapping.Create;
 using RecipeHub.Domain.Models;
 
 namespace RecipeHub.Application.Recipes.Commands.CreateRecipe;

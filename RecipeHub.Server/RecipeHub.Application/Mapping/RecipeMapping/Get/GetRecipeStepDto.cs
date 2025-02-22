@@ -1,8 +1,10 @@
-﻿namespace RecipeHub.Application.Mapping.RecipeMapping;
+﻿namespace RecipeHub.Application.Mapping.RecipeMapping.Get;
 
-public class RecipeStepDto
+public class GetRecipeStepDto
 {
     public required string Id { get; set; }
+
+    public int Number { get; set; }
 
     public string Description { get; set; } = default!;
 

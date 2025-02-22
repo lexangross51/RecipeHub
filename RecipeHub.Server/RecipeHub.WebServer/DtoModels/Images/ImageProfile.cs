@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using RecipeHub.Domain.Models;
 
-namespace RecipeHub.WebServer.DtoModels.Mapping.Common;
+namespace RecipeHub.WebServer.DtoModels.Images;
 
-public class ImageMapper : Profile
+public class ImageProfile : Profile
 {
     private class IFormFileToImageConverter : ITypeConverter<IFormFile, Image>
     {
@@ -26,5 +26,5 @@ public class ImageMapper : Profile
         }
     }
 
-    public ImageMapper() => CreateMap<IFormFile, Image>().ConvertUsing<IFormFileToImageConverter>();
+    public ImageProfile() => CreateMap<IFormFile, Image>().ConvertUsing<IFormFileToImageConverter>();
 }

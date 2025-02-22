@@ -1,6 +1,6 @@
 ﻿using RecipeHub.Domain.Models;
 
-namespace RecipeHub.Application.Recipes.Commands.UpdateRecipe;
+namespace RecipeHub.Application.Mapping.RecipeMapping.Update;
 
 public class UpdateIngredientDto
 {

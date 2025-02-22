@@ -54,11 +54,13 @@ public class RecipeController(IMediator mediator, IMapper mapper, ILogger<Recipe
 
             var recipe = result.Value;
             var recipeDto = mapper.Map<GetRecipeDto>(recipe);
-            recipeDto.ImageUrl = Url.Action(nameof(ImageController.Get), "Image", new { id = recipe.ImageId }, Request.Scheme);
+            recipeDto.ImageUrl = Url.Action(nameof(ImageController.Get), "Image", new { id = recipe.RecipeImageId }, Request.Scheme);
 
-            foreach (var step in recipeDto.RecipeSteps)
+            for (int i = 0; i < recipe.Steps.Count; i++)
             {
-                step.ImageUrl = Url.Action(nameof(ImageController.Get), "Image", new { id = recipe.ImageId }, Request.Scheme);
+                var step = recipe.Steps[i];
+                var stepDto = recipeDto.Steps[i];
+                stepDto.ImageUrl = Url.Action(nameof(ImageController.Get), "Image", new { id = step.ImageId }, Request.Scheme);
             }
 
             return Ok(recipeDto);
@@ -90,14 +92,11 @@ public class RecipeController(IMediator mediator, IMapper mapper, ILogger<Recipe
                 return BadRequest(result.Errors.First());
             }
 
-            var recipeDtos = mapper.Map<List<GetRecipeListDto>>(result.Value.Recipes);
+            var recipeDtos = mapper.Map<List<GetRecipeListItemDto>>(result.Value.Recipes);
 
             for (int i = 0; i < result.Value.Recipes.Count; i++)
             {
-                string? imageId = result.Value.Recipes[i].ImageId;
-
-                if (string.IsNullOrEmpty(imageId)) continue;
-
+                string? imageId = result.Value.Recipes[i].RecipeImageId;
                 recipeDtos[i].ImageUrl = Url.Action(nameof(ImageController.Get), "Image", new { id = imageId }, Request.Scheme);
             }
 

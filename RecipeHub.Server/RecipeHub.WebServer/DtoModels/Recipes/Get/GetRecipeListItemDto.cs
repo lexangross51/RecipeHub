@@ -1,6 +1,6 @@
 ﻿namespace RecipeHub.WebServer.DtoModels.Recipes.Get;
 
-public class GetRecipeListDto
+public class GetRecipeListItemDto
 {
     public string Id { get; set; } = default!;
 

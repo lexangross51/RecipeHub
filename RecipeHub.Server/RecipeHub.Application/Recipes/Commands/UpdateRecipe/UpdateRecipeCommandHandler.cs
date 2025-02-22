@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using AutoMapper;
+using FluentResults;
 using FluentValidation;
 using RecipeHub.Application.Common;
 using RecipeHub.Domain.Models;
@@ -8,7 +9,7 @@ using RecipeHub.Domain.Storage.Abstractions;
 namespace RecipeHub.Application.Recipes.Commands.UpdateRecipe;
 
 internal class UpdateRecipeCommandHandler(IUnitOfWork uow, IValidator<UpdateRecipeCommand> validator,
-    IFileManager fileManager) : RequestHandler<UpdateRecipeCommand>(validator)
+    IFileManager fileManager, IMapper mapper) : RequestHandler<UpdateRecipeCommand>(validator)
 {
     protected override async Task<Result> HandleAsync(UpdateRecipeCommand request, CancellationToken cancellationToken)
     {
@@ -137,7 +138,7 @@ internal class UpdateRecipeCommandHandler(IUnitOfWork uow, IValidator<UpdateReci
             {
                 foreach (var newStep in request.NewSteps)
                 {
-                    var newRecipeStep = new RecipeStep { Description = newStep.Description };
+                    var newRecipeStep = mapper.Map<RecipeStep>(newStep);
 
                     if (newStep.StepImage is { Data: not null })
                     {
