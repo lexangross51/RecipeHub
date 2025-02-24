@@ -11,7 +11,8 @@ internal class RecipeProfile : Profile
     {
         CreateMap<CreateRecipeStepDto, RecipeStep>()
             .ForMember(dto => dto.ImageId,
-            opt => opt.MapFrom(src => src.StepImage  != null ? src.StepImage.Id : default));
+            opt => opt.MapFrom(src => src.StepImage  != null && src.StepImage.Data != null
+            ? src.StepImage.Id : default));
         CreateMap<RecipeStep, GetRecipeStepDto>();
         CreateMap<Ingredient, GetIngredientDto>()
             .ForMember(dto => dto.Name,
