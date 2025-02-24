@@ -1,0 +1,28 @@
+:root {
+    --main-bg-color: #1e1e2f;
+    --card-bg-color: #2e2e3e;
+    --header-color: #ffffff;
+    --text-color: #d1d1d1;
+    --border-color: #444444;
+    --input-bg-color: #3a3a4a;
+    --input-text-color: #ffffff;
+    --button-bg-color: #007bff;
+    --button-text-color: #ffffff;
+    --ingredient-bg-color: #4a4a5e;
+    --ingredient-text-color: #ffffff;
+    --highlight-color: #00b894;
+    --light-bg-color: #2a2a3a;
+    --light-card-bg-color: #3e3e4e;
+}
+
+html, body {
+    height: 100%;
+    margin: 0 0.5%;
+    padding: 1% 0 0 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+
+body {
+    background-color: var(--main-bg-color);
+}

@@ -1,0 +1,70 @@
+@import url(defaultTheme.css);
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-info {
+    border-radius: 15px;
+    flex: 1;
+    color: white;
+}
+
+#recipe-image {
+    max-height: 40%;
+}
+
+.recipe-info h2 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.recipe-info h3 {
+    text-align: center;
+    margin: 0.7em 0 0.5em 0;
+}
+
+.element-info {
+    border-radius: 15px;
+    padding: 0.7em;
+    background-color: var(--card-bg-color);
+}
+
+.element-info h4 {
+    margin: 0;
+}
+
+#ingredients-list {
+    list-style: decimal;
+    padding-right: 2rem;
+}
+
+.ingredient-item-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.step-item {
+    margin-bottom: 0.5em;
+}
+
+.step-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-item-info p {
+    margin: 0.5em 0;
+}
+
+.step-item-info img {
+    max-height: 30%;
+}
+
+#steps-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}

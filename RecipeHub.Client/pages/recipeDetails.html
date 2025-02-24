@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/recipeDetails.css">
+    <script src="../scripts/recipeDetails.js"></script>
+    <title>Описание</title>
+</head>
+<body>
+    <div class="container">
+        <img id="recipe-image" src="../assets/images/none.jpg">
+        <div class="recipe-info">
+            <h2 id="recipe-name"></h2>
+            <div id="ingredients-info" class="element-info">
+                <h4>Ингредиенты</h2>
+                <ul id="ingredients-list">
+                </ul>
+            </div>
+
+            <h3>Шаги приготовления</h3>
+            <ul id="steps-list">
+                <li class="step-item element-info">
+                    <div class="step-item-info">
+                        <h4>Шаг 1</h4>
+                        <p class="step-description">здесь будет очень много текста, в котором будет подробное описано
+                            как готовить блюдо на данном шаге приготовления. я напишу сюда еще кучу всякого текста, 
+                            чтобы просто посмотреть, как это будет выглядеть
+                        </p>
+                        <img src="../assets/images/none.jpg">
+                    </div>
+                </li>
+                
+                <li class="step-item element-info">
+                    <div class="step-item-info">
+                        <h4>Шаг 2</h4>
+                        <p class="step-description">здесь будет очень много текста, в котором будет подробное описано
+                            как готовить блюдо на данном шаге приготовления. я напишу сюда еще кучу всякого текста, 
+                            чтобы просто посмотреть, как это будет выглядеть
+                        </p>
+                        <img src="../assets/images/none.jpg">
+                    </div>
+                </li>
+
+                <li class="step-item element-info">
+                    <div class="step-item-info">
+                        <h4>Шаг 3</h4>
+                        <p class="step-description">здесь будет очень много текста, в котором будет подробное описано
+                            как готовить блюдо на данном шаге приготовления. я напишу сюда еще кучу всякого текста, 
+                            чтобы просто посмотреть, как это будет выглядеть
+                        </p>
+                        <img src="../assets/images/none.jpg">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <template id="ingredient-item-template">
+        <li class="ingredient-item">
+            <div class="ingredient-item-info">
+                <span class="product-name">Продукт</span>
+                <span class="product-measure">5 шт</span>
+            </div>
+        </li>
+    </template>
+</body>
+</html>
