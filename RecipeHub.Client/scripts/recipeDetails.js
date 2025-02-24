@@ -1,9 +1,8 @@
 const api = 'https://localhost:7244/api/v1/';
-const id = '6c71fcb5-5dca-4fa7-8b2a-6b5d5b1462e1';
 
 document.addEventListener('DOMContentLoaded', async () => {
     var queryParams = new URLSearchParams(window.location.search);
-    const recipeId = /*queryParams.get('id');*/id;
+    const recipeId = queryParams.get('id');
     await getRecipe(recipeId);
 });
 
@@ -16,9 +15,10 @@ async function getRecipe(id) {
 }
 
 function fillElementsWithRecipeData(recipe) {
-    console.log(recipe);
+    document.getElementById('recipe-image').src = recipe.imageUrl;
     document.getElementById('recipe-name').innerText = recipe.name;
     const ingredientList = document.getElementById('ingredients-list');
+    const stepsList = document.getElementById('steps-list');
 
     // добавляем инфу об ингредиентах
     for (const ingredient of recipe.ingredients) {
@@ -26,8 +26,12 @@ function fillElementsWithRecipeData(recipe) {
     }
 
     // добавляем инфу о шагах приготовления
-    for (const step of recipe.steps) {
-        
+    if (recipe.steps.length == 1) {
+        stepsList.append(createRecipeStepItem(recipe.steps[0], true));
+    } else {
+        for (const step of recipe.steps) {
+            stepsList.append(createRecipeStepItem(step));
+        }
     }
 }
 
@@ -38,4 +42,29 @@ function createIngredientItem(ingredient) {
     ingredientElem.querySelector('.product-measure').innerText = `${ingredient.measure.value} ${ingredient.measure.unit}`;
 
     return ingredientElem;
+}
+
+function createRecipeStepItem(step, isOne = false) {
+    const stepItemTemplate = document.getElementById('step-item-template');
+    const stepElem = stepItemTemplate.content.cloneNode(true).firstElementChild;
+
+    const stepNumber = stepElem.querySelector('.step-number');
+
+    if (isOne) {
+        stepNumber.display = 'none';
+    } else {
+        stepNumber.innerText = `Шаг ${step.number + 1}`;
+    }
+
+    stepElem.querySelector('.step-description').innerText = step.description;
+    console.log(stepElem);
+    if (step.imageUrl) {
+        stepElem.querySelector('.step-image').src = step.imageUrl;
+    }
+
+    if (isOne) {
+        stepElem.queryParams
+    }
+
+    return stepElem;
 }

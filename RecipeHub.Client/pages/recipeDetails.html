@@ -20,38 +20,6 @@
 
             <h3>Шаги приготовления</h3>
             <ul id="steps-list">
-                <li class="step-item element-info">
-                    <div class="step-item-info">
-                        <h4>Шаг 1</h4>
-                        <p class="step-description">здесь будет очень много текста, в котором будет подробное описано
-                            как готовить блюдо на данном шаге приготовления. я напишу сюда еще кучу всякого текста, 
-                            чтобы просто посмотреть, как это будет выглядеть
-                        </p>
-                        <img src="../assets/images/none.jpg">
-                    </div>
-                </li>
-                
-                <li class="step-item element-info">
-                    <div class="step-item-info">
-                        <h4>Шаг 2</h4>
-                        <p class="step-description">здесь будет очень много текста, в котором будет подробное описано
-                            как готовить блюдо на данном шаге приготовления. я напишу сюда еще кучу всякого текста, 
-                            чтобы просто посмотреть, как это будет выглядеть
-                        </p>
-                        <img src="../assets/images/none.jpg">
-                    </div>
-                </li>
-
-                <li class="step-item element-info">
-                    <div class="step-item-info">
-                        <h4>Шаг 3</h4>
-                        <p class="step-description">здесь будет очень много текста, в котором будет подробное описано
-                            как готовить блюдо на данном шаге приготовления. я напишу сюда еще кучу всякого текста, 
-                            чтобы просто посмотреть, как это будет выглядеть
-                        </p>
-                        <img src="../assets/images/none.jpg">
-                    </div>
-                </li>
             </ul>
         </div>
     </div>
@@ -61,6 +29,16 @@
             <div class="ingredient-item-info">
                 <span class="product-name">Продукт</span>
                 <span class="product-measure">5 шт</span>
+            </div>
+        </li>
+    </template>
+
+    <template id="step-item-template">
+        <li class="step-item element-info">
+            <div class="step-item-info">
+                <h4 class="step-number"></h4>
+                <p class="step-description"></p>
+                <img class="step-image" >
             </div>
         </li>
     </template>
