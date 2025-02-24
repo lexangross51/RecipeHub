@@ -13,6 +13,16 @@ public class Startup(IConfiguration configuration)
             .AddRecipeHubApi()
             .AddMemoryCache(options => options.ExpirationScanFrequency = MemoryCachingSettings.CheckExpiredFrequency)
             .AddInfrastructure(connectionString)
+            .AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", builder =>
+                {
+                    builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+                });
+            })
             .AddControllers()
             .AddJsonOptions(builder =>
             {
@@ -27,6 +37,7 @@ public class Startup(IConfiguration configuration)
             app.UseDeveloperExceptionPage();
         }
 
+        app.UseCors("AllowAllOrigins");
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseEndpoints(ep => ep.MapControllers());
