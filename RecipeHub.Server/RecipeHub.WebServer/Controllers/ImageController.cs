@@ -42,7 +42,7 @@ public class ImageController(IMediator mediator, IMemoryCache cache, ILogger<Ima
                 ? type
                 : "image/png";
 
-            return string.IsNullOrEmpty(path)
+            return string.IsNullOrEmpty(path) || !System.IO.File.Exists(path)
                 ? NoContent()
                 : PhysicalFile(path, mime);
         }
