@@ -51,6 +51,27 @@
     border: 1px solid var(--border-color);
 }
 
+#sort-block {
+    color: var(--text-color);
+    margin: 0.2em 0.4em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#sort-field-select {
+    max-width: 72%;
+    text-overflow: ellipsis;
+}
+
+#sort-field-select {
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+    font-size: 1em;
+    border-color: transparent;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .recipe-info-block {
     display: flex;
     flex-direction: column;
@@ -58,9 +79,14 @@
 
 .recipe-image {
     text-align: center;
-    max-height: 10rem;
+    max-height: 13em;
     border-radius: 15px;
     object-fit: cover;
+}
+
+.recipe-info {
+    margin-top: 0.3em;
+    margin-left: 0.1em;
 }
 
 .recipe-info h3 {
