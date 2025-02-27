@@ -2,7 +2,7 @@ const api = 'https://localhost:7244/api/v1/';
 
 document.addEventListener('DOMContentLoaded', async () => {
     var queryParams = new URLSearchParams(window.location.search);
-    const recipeId = queryParams.get('id')/*'91367195-a34d-4023-a776-bf3f1c5a7ecd'*/;
+    const recipeId = /*queryParams.get('id')*/'91367195-a34d-4023-a776-bf3f1c5a7ecd';
     await getRecipe(recipeId);
 });
 
@@ -18,7 +18,7 @@ function fillElementsWithRecipeData(recipe) {
     console.log(recipe);
     
     const recipeImage = document.getElementById('recipe-image');
-    setDefaultImageWhenError(recipeImage, recipe.imageUrl);
+    // setDefaultImageWhenError(recipeImage, recipe.imageUrl);
     
     document.getElementById('recipe-name').innerText = recipe.name;
     const ingredientList = document.getElementById('ingredients-list');

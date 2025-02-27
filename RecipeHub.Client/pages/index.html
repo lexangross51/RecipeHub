@@ -13,15 +13,52 @@
             <img src="../assets/images/search.png" width="10%">
             <input type="text" id="input-search" placeholder="Искать">
         </div>
-        <div id="sort-block">
-            <span>Сортировать </span>
-            <select id="sort-field-select">
-                <option value="name-acs">Название (по возрастанию)</option>
-                <option value="name-desc">Название (по убыванию)</option>
-                <option value="cookingTime-acs">Время приготовления (по возрастанию)</option>
-                <option value="cookingTime-desc">Время приготовления (по убыванию)</option>
-            </select>
+        <div class="manipulation-block">
+            <div id="overlay"></div>
+            <!-- Опции для сортировки рецептов -->
+            <button id="sort-button">
+                <img src='../assets/images/sort.png'>
+            </button>
+            <div id="sort-options" class="element-info">
+                <h3>Сортировать по</h3>
+                <div>
+                    <input type="radio" name="sort-field" value="name-asc">
+                    Название (по возрастанию)
+                </div>
+                <div>
+                    <input type="radio" name="sort-field" value="name-desc"> 
+                    Название (по убыванию)
+                </div>
+                <div>
+                    <input type="radio" name="sort-field" value="time-asc">
+                    Время приготовления (по возрастанию)
+                </div>
+                <div>
+                    <input type="radio" name="sort-field" value="time-desc">
+                    Время приготовления (по убыванию)
+                </div>
+            </div>
+
+            <!-- Опции для фильтрации рецептов -->
+            <button id="filter-button">
+                <img src="../assets/images/filter.png">
+            </button>
+            <div id="filter-options" class="element-info">
+                <h3>Фильтрация</h3>
+                
+                <h4>Выбери продукты</h4>
+                <select id="products-selector">
+                    <option>Продукт 1</option>
+                    <option>Продукт 2</option>
+                    <option>Продукт 3</option>
+                    <option>Продукт 4</option>
+                </select>
+                <ul id="selected-products-list"></ul>
+
+                <button id="apply-filters-button">Применить</button>
+            </div>
         </div>
+
         <div class="recipes">
             <ul id="recipes-list"></ul>
         </div>

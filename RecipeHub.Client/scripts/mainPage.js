@@ -1,40 +1,87 @@
 const api = 'https://localhost:7244/api/v1/';
 
+let state = {
+    searchName: '',
+    sortBy: [],
+    take: 4,
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     attachEventListeners();
-    getRecipes({});
+    getRecipes(state);
 });
 
 function attachEventListeners() {
+    // window.addEventListener('click', (e) => {
+    //     const sortOptions = document.getElementById('sort-options');
+
+    //     if (sortOptions.classList.contains('show')) {
+    //         e.preventDefault();
+    //         sortOptions.classList.toggle('toggle');
+    //     }
+    // });
+
     const search = document.getElementById('input-search');
     search.addEventListener('input', async (e) => {
         const inputName = e.target.value;
-        await getRecipes({ searchName: inputName });
+        state.searchName = inputName;
+        await getRecipes(state);
+    });
+
+    const overlay = document.getElementById('overlay');
+    const sortButton = document.getElementById('sort-button');
+    const sortOptions = document.getElementById('sort-options');
+    sortButton.addEventListener('click', () => {
+        sortOptions.classList.toggle('show');
+        overlay.style.display = sortOptions.classList.contains('show') ? 'block' : 'none';
+    });
+
+    overlay.addEventListener('click', () => {
+        if (sortOptions.classList.contains('show')){
+            sortOptions.classList.toggle('show');
+        }
+
+        if (filterOptions.classList.contains('show')) {
+            filterOptions.classList.toggle('show');
+        }
+
+        overlay.style.display = 'none';
+    });
+
+    const sortRadioButtons = document.querySelectorAll('input[name="sort-field"]');
+    sortRadioButtons.forEach(button => {
+        button.addEventListener('change', async (e) => {
+            const selectedSort = e.target.value;
+            const options = selectedSort.split('-');
+
+            state.sortBy = [{
+                field: options[0],
+                order: options[1]
+            }];
+
+            sortOptions.classList.toggle('show');
+            await getRecipes(state);
+        })
     })
 
-    const sortSelect = document.getElementById('sort-field-select');
-    sortSelect.addEventListener('change', async function() {
-        const selectedSort = this.value;
-        const options = selectedSort.split('-');
-        const name = document.getElementById('input-search').value;
-    
-        await getRecipes({ searchName: name, sortBy: [{
-            field: options[0],
-            order: options[1]
-        }]});
+    const filterButton = document.getElementById('filter-button');
+    const filterOptions = document.getElementById('filter-options');
+    filterButton.addEventListener('click', () => {
+        filterOptions.classList.toggle('show');
+        overlay.style.display = filterOptions.classList.contains('show') ? 'block' : 'none';
     })
 }
 
-async function getRecipes({ searchName = '', take = 4, sortBy }) {
-    let link = api + `recipes?take=${take}`;
+async function getRecipes(getOptions) {
+    let link = api + `recipes?take=${getOptions.take}`;
 
-    if (searchName) {
+    if (getOptions.searchName) {
         link += `&name=${searchName}`;
     }
 
-    if (sortBy) {
-        for (let i = 0; i < sortBy.length; i++) {
-            const sort = sortBy[i];
+    if (getOptions.sortBy) {
+        for (let i = 0; i < getOptions.sortBy.length; i++) {
+            const sort = getOptions.sortBy[i];
 
             if (!sort) continue;
             
