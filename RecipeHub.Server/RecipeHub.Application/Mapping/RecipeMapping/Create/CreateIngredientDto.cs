@@ -1,11 +1,9 @@
 ﻿using RecipeHub.Domain.Models;
 
-namespace RecipeHub.Application.Recipes.Commands.UpdateRecipe;
+namespace RecipeHub.Application.Mapping.RecipeMapping.Create;
 
-public class UpdateIngredientDto
+public class CreateIngredientDto
 {
-    public required string Id { get; set; }
-
     public string ProductId { get; set; } = default!;
 
     public Measure Measure { get; set; } = default!;

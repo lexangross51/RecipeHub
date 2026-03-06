@@ -19,25 +19,25 @@ internal abstract class Repository<TId, TEntity>(RecipeHubContext context)
         var toDelete = await Entities
             .AsNoTracking()
             .FirstOrDefaultAsync(r => r.Id.Equals(id), token)
-            .ConfigureAwait(false);
-
-        if (toDelete == null)
-        {
-            throw new EntityNotFoundException($"Сущность типа {typeof(TEntity)} c ID = {id} не найдена");
-        }
-
+            .ConfigureAwait(false) 
+            ?? throw new EntityNotFoundException($"Сущность типа {typeof(TEntity)} c ID = {id} не найдена");
         Entities.Remove(toDelete);
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAsync(ISpecification<TEntity>? specification = null, CancellationToken token = default)
     {
-        if (specification == null)
-        {
-            return await Entities.AsNoTracking().ToListAsync(token).ConfigureAwait(false);
-        }
-
         var query = Entities.AsNoTracking().AsQueryable();
 
+        if (specification != null)
+        {
+            query = ApplySpecification(query, specification);
+        }
+
+        return await query.ToListAsync(token).ConfigureAwait(false);
+    }
+
+    protected virtual IQueryable<TEntity> ApplySpecification(IQueryable<TEntity> query, ISpecification<TEntity> specification)
+    {
         if (specification.Criteria != null)
         {
             query = query.Where(specification.Criteria);
@@ -45,12 +45,46 @@ internal abstract class Repository<TId, TEntity>(RecipeHubContext context)
 
         if (specification.OrderBy != null)
         {
-            query = query.OrderBy(specification.OrderBy);
+            IOrderedQueryable<TEntity>? orderBy = default;
+
+            foreach (var orderExpression in specification.OrderBy)
+            {
+                if (orderBy == null)
+                {
+                    orderBy = query.OrderBy(orderExpression);
+                }
+                else
+                {
+                    orderBy = orderBy.ThenBy(orderExpression);
+                }
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy;
+            }
         }
 
         if (specification.OrderByDescending != null)
         {
-            query = query.OrderByDescending(specification.OrderByDescending);
+            IOrderedQueryable<TEntity>? orderByDesc = default;
+
+            foreach (var orderExpression in specification.OrderByDescending)
+            {
+                if (orderByDesc == null)
+                {
+                    orderByDesc = query.OrderByDescending(orderExpression);
+                }
+                else
+                {
+                    orderByDesc = orderByDesc.ThenByDescending(orderExpression);
+                }
+            }
+
+            if (orderByDesc != null)
+            {
+                query = orderByDesc;
+            }
         }
 
         if (specification.Take.HasValue)
@@ -63,16 +97,20 @@ internal abstract class Repository<TId, TEntity>(RecipeHubContext context)
             query = query.Skip(specification.Skip.Value);
         }
 
-        return await query.AsNoTracking().ToListAsync(token).ConfigureAwait(false);
+        return query;
     }
 
     public virtual async Task<TEntity?> GetAsync(TId id, CancellationToken token = default) 
-        => await Entities.FirstOrDefaultAsync(e => e.Id.Equals(id), token)
+        => await Entities.AsNoTracking()
+        .FirstOrDefaultAsync(e => e.Id.Equals(id), token)
         .ConfigureAwait(false);
 
     public virtual Task UpdateAsync(TEntity entity, CancellationToken token = default)
     {
         Entities.Update(entity);
+
+        var entry = Entities.Entry(entity);
+
         return Task.CompletedTask;
     }
 

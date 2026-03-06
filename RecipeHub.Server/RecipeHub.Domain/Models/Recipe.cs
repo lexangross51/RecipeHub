@@ -12,6 +12,8 @@ public sealed class Recipe : IEntity<string>
 
     public string? Description { get; set; }
 
+    public string? RecipeImageId { get; set; }
+
     public Image? RecipeImage { get; set; }
 
     public ICollection<Ingredient> Ingredients { get; set; } = default!;

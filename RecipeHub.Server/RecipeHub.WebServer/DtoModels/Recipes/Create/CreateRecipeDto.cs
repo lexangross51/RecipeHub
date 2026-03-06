@@ -1,4 +1,4 @@
-﻿using RecipeHub.Application.Recipes.Commands.CreateRecipe;
+﻿using RecipeHub.Application.Mapping.RecipeMapping.Create;
 
 namespace RecipeHub.WebServer.DtoModels.Recipes.Create;
 
@@ -14,5 +14,5 @@ public class CreateRecipeDto
 
     public IEnumerable<CreateIngredientDto> Ingredients { get; set; } = default!;
 
-    public IEnumerable<RecipeStepDto> Steps { get; set; } = default!;
+    public IEnumerable<CreateRecipeStepDto> Steps { get; set; } = default!;
 }

@@ -1,8 +1,8 @@
 ﻿using RecipeHub.Domain.Models;
 
-namespace RecipeHub.Application.Mapping.RecipeMapping;
+namespace RecipeHub.Application.Mapping.RecipeMapping.Get;
 
-public class IngredientDto
+public class GetIngredientDto
 {
     public required string Id { get; set; }
 

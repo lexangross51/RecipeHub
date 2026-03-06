@@ -16,8 +16,8 @@ internal class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
             .IsRequired();
         builder.HasOne(e => e.RecipeImage)
             .WithOne()
-            .HasForeignKey("Recipe", "ImageId")
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey("Recipe", nameof(Recipe.RecipeImageId))
+            .OnDelete(DeleteBehavior.SetNull);
         builder.HasMany(e => e.Ingredients)
             .WithOne()
             .HasForeignKey("RecipeId")

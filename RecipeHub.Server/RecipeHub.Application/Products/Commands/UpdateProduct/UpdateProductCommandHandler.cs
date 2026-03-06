@@ -1,17 +1,21 @@
 ﻿using FluentResults;
 using FluentValidation;
 using RecipeHub.Application.Common;
+using RecipeHub.Domain.Models;
 using RecipeHub.Domain.Services.Abstractions;
 using RecipeHub.Domain.Storage.Abstractions;
 
 namespace RecipeHub.Application.Products.Commands.UpdateProduct;
 
-internal class UpdateProductCommandHandler(IProductRepository repos, IFileManager fileManager,
+internal class UpdateProductCommandHandler(IUnitOfWork uow, IFileManager fileManager,
     IValidator<UpdateProductCommand> validator) : RequestHandler<UpdateProductCommand>(validator)
 {
     protected override async Task<Result> HandleAsync(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await repos.GetAsync(request.Id, cancellationToken)
+        var productRepos = uow.GetRepository<IProductRepository>();
+        var imageRepos = uow.GetRepository<IImageRepository>();
+
+        var product = await productRepos!.GetAsync(request.Id, cancellationToken)
             .ConfigureAwait(false);
 
         if (product == null)
@@ -20,30 +24,49 @@ internal class UpdateProductCommandHandler(IProductRepository repos, IFileManage
             return Result.Fail(errorMessage);
         }
 
-        product.Name = request.NewName;
-
-        if (product.Image != null)
+        try
         {
-            var path = product.Image.Path;
-
-            if (path != null)
+            if (product.Name != request.NewName)
             {
-                await fileManager.DeleteAsync(path, cancellationToken).ConfigureAwait(false);
+                product.Name = request.NewName;
             }
 
-            if (request.NewImage is { Data: not null })
-            {
-                request.NewImage.Data.Seek(0, SeekOrigin.Begin);
-                await fileManager.SaveAsync($"{request.NewImage.Id}_{request.NewImage.Name}", request.NewImage, cancellationToken)
-                    .ConfigureAwait(false);
+            Image? imageToDelete = default;
 
+            if (request.NewImage != null)
+            {
+                string fileName = $"{request.NewImage.Id}_{request.NewImage.Name}";
+                await fileManager.SaveAsync(fileName, request.NewImage, cancellationToken).ConfigureAwait(false);
+                await imageRepos!.CreateAsync(request.NewImage, cancellationToken).ConfigureAwait(false);
+
+                imageToDelete = product.Image;
                 product.Image = request.NewImage;
+                product.ImageId = request.NewImage.Id;
+
+                if (imageToDelete != null)
+                {
+                    await imageRepos!.DeleteAsync(imageToDelete.Id, cancellationToken).ConfigureAwait(false);
+                }
+            }
+
+            await productRepos.UpdateAsync(product, cancellationToken).ConfigureAwait(false);
+            await uow.CommitAsync(cancellationToken).ConfigureAwait(false);
+
+            if (imageToDelete is { Path: not null })
+            {
+                await fileManager.DeleteAsync(imageToDelete.Path, cancellationToken).ConfigureAwait(false);
             }
         }
+        catch (Exception)
+        {
+            if (request.NewImage is { Path: not null })
+            {
+                await fileManager.DeleteAsync(request.NewImage.Path, cancellationToken).ConfigureAwait(false);
+            }
 
-        await repos.UpdateAsync(product, cancellationToken).ConfigureAwait(false);
-        await repos.CommitAsync(cancellationToken).ConfigureAwait(false);
-
+            throw;
+        }
+        
         return Result.Ok();
     }
 }

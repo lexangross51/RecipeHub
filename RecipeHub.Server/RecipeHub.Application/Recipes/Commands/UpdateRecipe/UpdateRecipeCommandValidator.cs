@@ -15,12 +15,12 @@ internal class UpdateRecipeCommandValidator : AbstractValidator<UpdateRecipeComm
             .MinimumLength(1)
             .MaximumLength(256);
 
-        RuleFor(x => x.NewIngredients)
+        RuleFor(x => x.EditedIngredients)
             .NotNull()
             .Must(d => d.Any());
 
-        RuleFor(x => x.NewSteps)
+        RuleFor(x => x.EditedSteps)
             .NotNull()
-            .Must(s => s.TryGetNonEnumeratedCount(out var count) && count > 0);
+            .Must(s => s.Any());
     }
 }
